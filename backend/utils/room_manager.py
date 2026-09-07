@@ -184,7 +184,7 @@ class Room:
                 if self.is_game_ongoing == True:
                     player.is_active = False
                 else:
-                    self.players_public.pop(player, None)
+                    self.players_public.pop(idx)
                     self.available_avatars.append(player.avatar)
 
                 break
