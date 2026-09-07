@@ -91,7 +91,7 @@ class Room:
         return len(self.active_connections) == self.capacity
     
     def is_game_connection_limit_exceeded(self) -> bool:
-        return len(self.connections) >= 3 * self.capacity
+        return len(self.connections) > 3 * self.capacity
     
     async def unicast(
         self, 
@@ -174,11 +174,22 @@ class Room:
             return
 
         self.active_connections.pop(player_name, None)
-        for player in self.players_public:
+        if self.is_game_ongoing == False:
+            self.connections.pop(player_name, None)
+
+        idx: int = 0
+        while idx < len(self.players_public):
+            player: PlayerPublic = self.players_public[idx]
             if player.name == player_name:
-                player.is_active = False
-                self.available_avatars.append(player.avatar)
+                if self.is_game_ongoing == True:
+                    player.is_active = False
+                else:
+                    self.players_public.pop(player, None)
+                    self.available_avatars.append(player.avatar)
+
                 break
+
+            idx += 1
         
         if self.is_game_ongoing == True and len(self.active_connections) < 2:
             self.cancel_game_loop_task()
@@ -251,9 +262,10 @@ class Room:
         if self.heartbeat_task == None:
             self.heartbeat_task = asyncio.create_task(self.heartbeat())
 
-        avatar: int = self.available_avatars[0]
-        self.available_avatars.remove(avatar)
         if did_player_rejoin == False:
+            avatar: int = self.available_avatars[0]
+            self.available_avatars.remove(avatar)
+
             self.players_public.append(
                 PlayerPublic(
                     name=player_name,
@@ -267,9 +279,7 @@ class Room:
         else:
             for player in self.players_public:
                 if player.name == player_name:
-                    player.avatar = avatar
                     player.is_active = True
-
                     break
 
         self.rank_players()
@@ -499,17 +509,9 @@ class Room:
             
             await self.broadcast_subround_score(note=note)
         finally:
-            self.total_points_drawn = None
-            self.path_drawing_history = None
-
             self.is_game_ongoing = False
             self.rounds_elapsed = None
-            self.sketcher_name = None
-            self.target_word = None
-            self.hinted_target_word = None
-            self.subround_end_time = None
             self.previously_assigned_words.clear()
-            self.subround_correct_guessers_names = None
             self.game_loop_task = None
             
             for player in self.players_public:
@@ -570,12 +572,6 @@ class Room:
         
             if len(self.active_connections) < 2:
                 return
-            
-            players_public_snapshot: List[PlayerPublic] = self.players_public.copy()
-            for player in players_public_snapshot:
-                if player.is_active == False:
-                    self.players_public.remove(player)
-                    self.connections.pop(player.name, None)
             
             self.is_game_ongoing = True
             self.chat_messages_history.clear()     
@@ -676,10 +672,10 @@ class Room:
             self.game_loop_task = asyncio.create_task(self.game_loop())
 
     async def close_all_connections(self) -> None:
-        connections_snapshot: Dict[str, WebSocket] = self.active_connections.copy()
-        for player_name in connections_snapshot:
+        active_connections_snapshot: Dict[str, WebSocket] = self.active_connections.copy()
+        for player_name in active_connections_snapshot:
             self.active_connections.pop(player_name, None)
-            player_websocket: WebSocket = connections_snapshot[player_name]
+            player_websocket: WebSocket = active_connections_snapshot[player_name]
 
             try:
                 await player_websocket.close(
