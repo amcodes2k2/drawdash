@@ -1,5 +1,5 @@
-from fastapi import HTTPException, Request, WebSocket
 from fastapi.datastructures import Address as ClientAddress
+from fastapi import HTTPException, WebSocketException, Request, WebSocket
 
 from utils.rate_limiter import RateLimiter
 
@@ -8,9 +8,7 @@ async def handle_http_rate_limiting(request: Request) -> None:
     client_address: ClientAddress = request.client
     
     rate_limiter: RateLimiter = request.app.state.requests_rate_limiter
-    if rate_limiter.is_rate_limit_exceeded(
-        key=f"{client_address.host}:{request_path}"
-    ) == True:
+    if rate_limiter.is_rate_limit_exceeded(key=f"{client_address.host}:{request_path}") == True:
         raise HTTPException(
             status_code=429,
             detail="Too many requests"
@@ -21,10 +19,9 @@ async def handle_websocket_rate_limiting(websocket: WebSocket) -> None:
     client_address: ClientAddress = websocket.client
     
     rate_limiter: RateLimiter = websocket.app.state.requests_rate_limiter
-    if rate_limiter.is_rate_limit_exceeded(
-        key=f"{client_address.host}:{request_path}"
-    ) == True:
-        raise HTTPException(
-            status_code=429,
-            detail="Too many requests"
+    if rate_limiter.is_rate_limit_exceeded(key=f"{client_address.host}:{request_path}") == True:
+        await websocket.accept()
+        raise WebSocketException(
+            code=4029,
+            reason="Too many requests"
         )
