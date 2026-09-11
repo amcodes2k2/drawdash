@@ -129,12 +129,12 @@ function Home()
     }
 
     return (
-        <div className="w-[100vw] h-[100vh] flex flex-col items-center justify-center gap-6">
+        <div className="w-[100vw] h-[100dvh] flex flex-col items-center justify-center gap-6">
             <GameLogo>  
             </GameLogo>
 
             <div 
-                className="w-[90vw] max-w-[350px] md:max-w-[550px] lg:max-w-[600px] bg-white/95 rounded-sm text-xs md:text-base md:rounded-md p-2.75 md:p-5 flex flex-col md:gap-8"
+                className="w-[90vw] max-w-[350px] md:max-w-[550px] lg:max-w-[600px] bg-white/95 rounded-sm text-[12.5px] md:text-base md:rounded-md p-2.75 md:p-5 flex flex-col md:gap-8"
             >
                 <form id="createNewRoomForm" onSubmit={handleSubmit}>
                     <div className="flex flex-col items-center gap-2">
