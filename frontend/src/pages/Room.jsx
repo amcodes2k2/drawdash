@@ -202,12 +202,10 @@ function Room()
             </MoonLoader>
         </div>
         :
-        <div className="w-[100vw] h-[100vh] flex flex-col items-center justify-center gap-3">
-            <GameLogo
-                tailwindClasses={"w-[98%] flex items-end justify-start"}
-                avatarSize={50}
-            >
-            </GameLogo>
+        <div 
+            className="w-[100vw] h-[100vh] flex flex-col items-center justify-center gap-3"
+        >
+            <GameLogo></GameLogo>
             
             <GameBar 
                 isReconnectingToServer={isReconnectingToServer}

@@ -1,11 +1,11 @@
 import PlayerAvatar from "./PlayerAvatar.jsx";
 
-function GameLogo({ tailwindClasses, avatarSize })
+function GameLogo()
 {
     return (
-        <div className={tailwindClasses}>
+        <div className="flex flex-col items-center">
             <div 
-                className="text-white font-semibold text-4xl"
+                className="text-white font-semibold text-4xl md:text-5xl 2xl:text-6xl"
             >
                 DrawDash
             </div>
@@ -16,8 +16,7 @@ function GameLogo({ tailwindClasses, avatarSize })
                         return (
                             <PlayerAvatar 
                                 key={idx} 
-                                index={idx} 
-                                size={avatarSize}
+                                index={idx}
                             >
                             </PlayerAvatar>
                         );

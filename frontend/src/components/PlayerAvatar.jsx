@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
 const colors = [
     "#ef4444", 
@@ -11,9 +11,35 @@ const colors = [
     "#06b6d4" 
 ];
 
-function PlayerAvatar({ index, size = 50 }) 
+function computeBodySize()
+{
+    const windowWidth = window.screen.width;
+
+    if(windowWidth < 375)
+        return 32.5;
+    else if(windowWidth >= 375 && windowWidth < 425)
+        return 37.5;
+    else if(windowWidth >= 425 && windowWidth < 768)
+        return 42.5;
+    else if(windowWidth >= 768 && windowWidth < 1024)
+        return 47.5;
+    else if(windowWidth >= 1024 && windowWidth < 1440)
+        return 52.5;
+    else
+        return 57.5;
+}
+
+function PlayerAvatar({ index }) 
 {
     const bodyColor = colors[index];
+    const [bodySize, setBodySize] = useState(computeBodySize);
+
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            const newBodySize = computeBodySize();
+            setBodySize(newBodySize);
+        });
+    }, []);
 
     const renderFace = () => {
         switch (index) {
@@ -42,7 +68,7 @@ function PlayerAvatar({ index, size = 50 })
                         <path d="M 45 70 Q 50 75 55 70" stroke="#111" strokeWidth="3" fill="none" strokeLinecap="round" />
                     </g>
                 );
-            case 3: // Derp (Googly Eyes)
+            case 3:
                 return (
                     <g>
                         <circle cx="38" cy="45" r="7" fill="#fff" stroke="#111" strokeWidth="2" />
@@ -99,9 +125,9 @@ function PlayerAvatar({ index, size = 50 })
 
     return (
         <svg 
-            width={size} 
-            height={size} 
-            viewBox="0 0 100 100" 
+            width={bodySize} 
+            height={bodySize} 
+            viewBox="25 15 50 85" 
             xmlns="http://www.w3.org/2000/svg"
         >
             <path 

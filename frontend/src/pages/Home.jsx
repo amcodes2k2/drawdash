@@ -15,6 +15,7 @@ function Home()
         rounds: 2,
         maxNoOfLettersToReveal: 0
     });
+
     const [joinExistingRoomFormData, setJoinExistingRoomFormData] = useState({
         playerName: "",
         roomId: ""
@@ -25,8 +26,8 @@ function Home()
         try
         {
             event.preventDefault();
-            setIsRunning(true);
             
+            setIsRunning(true);
             if(event.target.id === "createNewRoomForm")
             {
                 const response = await fetch(`https://${import.meta.env.VITE_BACKEND_HOST}/rooms`, {
@@ -72,6 +73,7 @@ function Home()
             {
                 const roomId = joinExistingRoomFormData.roomId;
                 const playerName = joinExistingRoomFormData.playerName;
+
                 navigate(`/rooms/${roomId}?player_name=${playerName}`);
             }
         }
@@ -128,13 +130,12 @@ function Home()
 
     return (
         <div className="w-[100vw] h-[100vh] flex flex-col items-center justify-center gap-6">
-            <GameLogo
-                tailwindClasses={"flex flex-col items-center"}
-                avatarSize={60}
-            >  
+            <GameLogo>  
             </GameLogo>
 
-            <div className="w-[600px] bg-white/95 rounded-md px-8 py-5 flex flex-col gap-8">
+            <div 
+                className="w-[90vw] max-w-[350px] md:max-w-[550px] lg:max-w-[600px] bg-white/95 rounded-sm text-xs md:text-base md:rounded-md p-2.75 md:p-5 flex flex-col md:gap-8"
+            >
                 <form id="createNewRoomForm" onSubmit={handleSubmit}>
                     <div className="flex flex-col items-center gap-2">
                         <div className="w-full flex justify-between items-center">
@@ -154,7 +155,7 @@ function Home()
                                 title="Name can contain only letters, numbers, and underscores"
                                 value={createNewRoomFormData.ownerName}
                                 placeholder="Enter your name"
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                             </input>
                         </div>
@@ -171,7 +172,7 @@ function Home()
                                 required
                                 onChange={handleChange}
                                 value={createNewRoomFormData.capacity}
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                                 {
                                     [2, 3, 4, 5, 6, 7, 8].map((capacity) => {
@@ -200,7 +201,7 @@ function Home()
                                 required
                                 onChange={handleChange}
                                 value={createNewRoomFormData.drawTime}
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                                 {
                                     [15, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120].map((drawtime) => {
@@ -229,7 +230,7 @@ function Home()
                                 required
                                 onChange={handleChange}
                                 value={createNewRoomFormData.rounds}
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                                 {
                                     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((rounds) => {
@@ -258,7 +259,7 @@ function Home()
                                 required
                                 onChange={handleChange}
                                 value={createNewRoomFormData.maxNoOfLettersToReveal}
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                                 {
                                     [0, 1, 2, 3, 4, 5].map((letterCount) => {
@@ -281,13 +282,13 @@ function Home()
                         disabled={isRunning}
                         value="Create new room"
                         className={
-                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2 rounded-md`
+                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2  rounded-xs md:rounded-md`
                         }
                     >
                     </input>
                 </form>
 
-                <div className="w-full flex justify-evenly items-center">
+                <div className="w-full flex justify-evenly items-center my-4 md:my-0">
                     <div className="bg-black w-[45%] h-[2px]">
                     </div>
                     
@@ -318,7 +319,7 @@ function Home()
                                 title="Name can contain only letters, numbers, and underscores"
                                 value={joinExistingRoomFormData.playerName}
                                 placeholder="Enter your name"
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                             </input>
                         </div>
@@ -340,7 +341,7 @@ function Home()
                                 title="Must be a valid 36-character Room ID"
                                 value={joinExistingRoomFormData.roomId}
                                 placeholder="Enter room id"
-                                className="border rounded w-[80%] px-2 py-1"
+                                className="border rounded-xs md:rounded w-[75%] md:w-[80%] px-2 py-1"
                             >
                             </input>
                         </div>
@@ -351,7 +352,7 @@ function Home()
                         disabled={isRunning}
                         value="Join existing room"
                         className={
-                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2 rounded-md`
+                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2 rounded-xs md:rounded-md`
                         }
                     >
                     </input>
