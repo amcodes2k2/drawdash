@@ -141,7 +141,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="ownerName"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Name:
                             </label>
@@ -163,7 +163,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="capacity"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Players:
                             </label>
@@ -192,7 +192,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="drawTime"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Drawtime:
                             </label>
@@ -221,7 +221,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="rounds"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Rounds:
                             </label>
@@ -250,7 +250,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="maxNoOfLettersToReveal"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Hints:
                             </label>
@@ -282,7 +282,7 @@ function Home()
                         disabled={isRunning}
                         value="Create new room"
                         className={
-                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2  rounded-xs md:rounded-md`
+                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2  rounded-xs md:rounded-md font-bold lg:font-semibold`
                         }
                     >
                     </input>
@@ -305,7 +305,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="playerName"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Name:
                             </label>
@@ -327,7 +327,7 @@ function Home()
                         <div className="w-full flex justify-between items-center">
                             <label 
                                 htmlFor="roomId"
-                                className="font-semibold"
+                                className="font-bold lg:font-semibold"
                             >
                                 Room Id:
                             </label>
@@ -352,7 +352,7 @@ function Home()
                         disabled={isRunning}
                         value="Join existing room"
                         className={
-                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2 rounded-xs md:rounded-md`
+                            `mt-5 ${isRunning === false ? "bg-black cursor-pointer" : "bg-gray-400 cursor-not-allowed"} text-white w-full py-2 rounded-xs md:rounded-md font-bold lg:font-semibold`
                         }
                     >
                     </input>
